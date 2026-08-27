@@ -1,7 +1,7 @@
 import express from "express";
+import { config } from "./config.js";
 
 const app = express();
-const PORT = 3000;
 
 app.use(express.json());
 
@@ -9,6 +9,6 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "dosie-backend" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Dosie backend running on http://localhost:${PORT}`);
+app.listen(config.port, () => {
+  console.log(`Dosie backend running on http://localhost:${config.port}`);
 });
