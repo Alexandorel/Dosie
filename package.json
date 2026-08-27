@@ -1,0 +1,16 @@
+{
+  "name": "dosie",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Intelligent Voice AI Agent System for Medication Monitoring",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down"
+  }
+}
