@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { z } from "zod";
 import { prisma } from "../db.js";
-import { hashPassword } from "../lib/password.js";
+import { hashPassword, verifyPassword } from "../lib/password.js";
+import { signToken } from "../lib/jwt.js";
 
 export const authRouter = Router();
 
@@ -10,6 +11,11 @@ const registerSchema = z.object({
   password: z.string().min(8),
   fullName: z.string().min(1),
   phoneNumber: z.string().optional(),
+});
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
 });
 
 authRouter.post("/register", async (req, res) => {
@@ -33,4 +39,25 @@ authRouter.post("/register", async (req, res) => {
   });
 
   return res.status(201).json({ user });
+});
+
+authRouter.post("/login", async (req, res) => {
+  const parsed = loginSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: "Invalid input", details: parsed.error.issues });
+  }
+
+  const { email, password } = parsed.data;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user || !(await verifyPassword(password, user.passwordHash))) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+
+  const token = signToken({ userId: user.id });
+
+  return res.json({
+    token,
+    user: { id: user.id, email: user.email, fullName: user.fullName },
+  });
 });
