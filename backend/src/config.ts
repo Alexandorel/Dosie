@@ -16,6 +16,8 @@ export const config = {
   port: Number(process.env.PORT ?? 3000),
   databaseUrl: required("DATABASE_URL"),
   redisUrl: required("REDIS_URL"),
+  jwtSecret: required("JWT_SECRET"),
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? "7d",
   twilio: {
     accountSid: optional("TWILIO_ACCOUNT_SID"),
     authToken: optional("TWILIO_AUTH_TOKEN"),
