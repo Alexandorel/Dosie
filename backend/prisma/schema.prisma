@@ -1,0 +1,161 @@
+// Dosie database schema.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  owner
+  viewer
+}
+
+enum Unit {
+  mg
+  ml
+  pill
+  drop
+  sachet
+  puff
+}
+
+enum Form {
+  syrup
+  tablet
+  drops
+  inhaler
+  capsule
+}
+
+enum CallStatus {
+  queued
+  ringing
+  completed
+  no_answer
+  failed
+}
+
+enum AlertSeverity {
+  info
+  warning
+  critical
+}
+
+model User {
+  id           String             @id @default(uuid()) @db.Uuid
+  email        String             @unique
+  passwordHash String             @map("password_hash")
+  fullName     String             @map("full_name")
+  phoneNumber  String?            @map("phone_number")
+  notifySms    Boolean            @default(true) @map("notify_sms")
+  notifyEmail  Boolean            @default(true) @map("notify_email")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  patients     PatientCaregiver[]
+
+  @@map("users")
+}
+
+model PatientCaregiver {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  patientId String   @map("patient_id") @db.Uuid
+  role      Role     @default(owner)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, patientId])
+  @@map("patient_caregivers")
+}
+
+model Patient {
+  id          String             @id @default(uuid()) @db.Uuid
+  fullName    String             @map("full_name")
+  phoneNumber String             @map("phone_number")
+  timezone    String             @default("Europe/Bucharest")
+  language    String             @default("ro")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  caregivers  PatientCaregiver[]
+  medications Medication[]
+  schedules   Schedule[]
+  calls       Call[]
+  alerts      Alert[]
+
+  @@map("patients")
+}
+
+model Medication {
+  id           String               @id @default(uuid()) @db.Uuid
+  patientId    String               @map("patient_id") @db.Uuid
+  name         String
+  amount       Decimal              @db.Decimal(10, 2)
+  unit         Unit
+  form         Form?
+  instructions String?
+  active       Boolean              @default(true)
+  createdAt    DateTime             @default(now()) @map("created_at")
+  patient      Patient              @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  schedules    ScheduleMedication[]
+
+  @@map("medications")
+}
+
+model Schedule {
+  id          String               @id @default(uuid()) @db.Uuid
+  patientId   String               @map("patient_id") @db.Uuid
+  timeOfDay   DateTime             @map("time_of_day") @db.Time(6)
+  daysOfWeek  Int[]                @map("days_of_week")
+  active      Boolean              @default(true)
+  createdAt   DateTime             @default(now()) @map("created_at")
+  patient     Patient              @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  medications ScheduleMedication[]
+  calls       Call[]
+
+  @@map("schedules")
+}
+
+model ScheduleMedication {
+  id           String     @id @default(uuid()) @db.Uuid
+  scheduleId   String     @map("schedule_id") @db.Uuid
+  medicationId String     @map("medication_id") @db.Uuid
+  schedule     Schedule   @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  medication   Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+
+  @@unique([scheduleId, medicationId])
+  @@map("schedule_medications")
+}
+
+model Call {
+  id            String     @id @default(uuid()) @db.Uuid
+  patientId     String     @map("patient_id") @db.Uuid
+  scheduleId    String?    @map("schedule_id") @db.Uuid
+  status        CallStatus
+  startedAt     DateTime?  @map("started_at")
+  endedAt       DateTime?  @map("ended_at")
+  transcript    String?
+  twilioCallSid String?    @map("twilio_call_sid")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  patient       Patient    @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  schedule      Schedule?  @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  alerts        Alert[]
+
+  @@map("calls")
+}
+
+model Alert {
+  id           String        @id @default(uuid()) @db.Uuid
+  patientId    String        @map("patient_id") @db.Uuid
+  callId       String?       @map("call_id") @db.Uuid
+  severity     AlertSeverity
+  message      String
+  acknowledged Boolean       @default(false)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  patient      Patient       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  call         Call?         @relation(fields: [callId], references: [id], onDelete: SetNull)
+
+  @@map("alerts")
+}
