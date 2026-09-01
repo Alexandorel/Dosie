@@ -31,3 +31,27 @@ patientsRouter.post("/", async (req, res) => {
 
   return res.status(201).json({ patient });
 });
+
+patientsRouter.get("/", async (req, res) => {
+  const patients = await prisma.patient.findMany({
+    where: { caregivers: { some: { userId: req.userId! } } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return res.json({ patients });
+});
+
+patientsRouter.get("/:id", async (req, res) => {
+  const patient = await prisma.patient.findFirst({
+    where: {
+      id: req.params.id,
+      caregivers: { some: { userId: req.userId! } },
+    },
+  });
+
+  if (!patient) {
+    return res.status(404).json({ error: "Patient not found" });
+  }
+
+  return res.json({ patient });
+});
