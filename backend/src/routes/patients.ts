@@ -4,6 +4,7 @@ import { prisma } from "../db.js";
 import { requireAuth } from "../middleware/auth.js";
 import { getOwnedPatient } from "../lib/patients.js";
 import { medicationsRouter } from "./medications.js";
+import { schedulesRouter } from "./schedules.js";
 
 export const patientsRouter = Router();
 
@@ -19,6 +20,7 @@ const createPatientSchema = z.object({
 const updatePatientSchema = createPatientSchema.partial();
 
 patientsRouter.use("/:patientId/medications", medicationsRouter);
+patientsRouter.use("/:patientId/schedules", schedulesRouter);
 
 patientsRouter.post("/", async (req, res) => {
   const parsed = createPatientSchema.safeParse(req.body);
