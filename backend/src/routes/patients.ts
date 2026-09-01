@@ -14,6 +14,14 @@ const createPatientSchema = z.object({
   language: z.string().optional(),
 });
 
+const updatePatientSchema = createPatientSchema.partial();
+
+function getOwnedPatient(userId: string, id: string) {
+  return prisma.patient.findFirst({
+    where: { id, caregivers: { some: { userId } } },
+  });
+}
+
 patientsRouter.post("/", async (req, res) => {
   const parsed = createPatientSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -42,16 +50,40 @@ patientsRouter.get("/", async (req, res) => {
 });
 
 patientsRouter.get("/:id", async (req, res) => {
-  const patient = await prisma.patient.findFirst({
-    where: {
-      id: req.params.id,
-      caregivers: { some: { userId: req.userId! } },
-    },
-  });
-
+  const patient = await getOwnedPatient(req.userId!, req.params.id);
   if (!patient) {
     return res.status(404).json({ error: "Patient not found" });
   }
 
   return res.json({ patient });
+});
+
+patientsRouter.patch("/:id", async (req, res) => {
+  const parsed = updatePatientSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: "Invalid input", details: parsed.error.issues });
+  }
+
+  const existing = await getOwnedPatient(req.userId!, req.params.id);
+  if (!existing) {
+    return res.status(404).json({ error: "Patient not found" });
+  }
+
+  const patient = await prisma.patient.update({
+    where: { id: req.params.id },
+    data: parsed.data,
+  });
+
+  return res.json({ patient });
+});
+
+patientsRouter.delete("/:id", async (req, res) => {
+  const existing = await getOwnedPatient(req.userId!, req.params.id);
+  if (!existing) {
+    return res.status(404).json({ error: "Patient not found" });
+  }
+
+  await prisma.patient.delete({ where: { id: req.params.id } });
+
+  return res.status(204).send();
 });
