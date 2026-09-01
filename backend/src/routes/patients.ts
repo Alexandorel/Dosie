@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { prisma } from "../db.js";
 import { requireAuth } from "../middleware/auth.js";
+import { getOwnedPatient } from "../lib/patients.js";
 
 export const patientsRouter = Router();
 
@@ -15,12 +16,6 @@ const createPatientSchema = z.object({
 });
 
 const updatePatientSchema = createPatientSchema.partial();
-
-function getOwnedPatient(userId: string, id: string) {
-  return prisma.patient.findFirst({
-    where: { id, caregivers: { some: { userId } } },
-  });
-}
 
 patientsRouter.post("/", async (req, res) => {
   const parsed = createPatientSchema.safeParse(req.body);
