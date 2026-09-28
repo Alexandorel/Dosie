@@ -2,6 +2,8 @@ import express from "express";
 import { config } from "./config.js";
 import { authRouter } from "./routes/auth.js";
 import { patientsRouter } from "./routes/patients.js";
+import { startScheduler } from "./scheduler/index.js";
+import { startCallWorker } from "./queue/callWorker.js";
 
 const app = express();
 
@@ -14,6 +16,10 @@ app.get("/health", (_req, res) => {
 app.use("/auth", authRouter);
 app.use("/patients", patientsRouter);
 
-app.listen(config.port, () => {
+app.listen(config.port, async () => {
   console.log(`Dosie backend running on http://localhost:${config.port}`);
+
+  startCallWorker();
+  await startScheduler();
+  console.log("Scheduler and call worker started");
 });
