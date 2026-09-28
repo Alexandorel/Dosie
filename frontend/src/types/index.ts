@@ -5,3 +5,12 @@ export interface User {
   phoneNumber?: string | null
   createdAt?: string
 }
+
+export interface Patient {
+  id: string
+  fullName: string
+  phoneNumber: string
+  timezone: string
+  language: string
+  createdAt: string
+}
