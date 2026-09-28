@@ -1,9 +1,27 @@
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { Layout } from '@/components/Layout'
+import { LoginPage } from '@/pages/LoginPage'
+import { RegisterPage } from '@/pages/RegisterPage'
+import { DashboardPage } from '@/pages/DashboardPage'
+
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-slate-50 text-slate-900">
-      <h1 className="text-3xl font-semibold tracking-tight">Dosie</h1>
-      <p className="mt-2 text-slate-500">Frontend is running — Tailwind works.</p>
-    </div>
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
+      {/* Protected routes (require a logged-in user) */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<DashboardPage />} />
+        </Route>
+      </Route>
+
+      {/* Anything else redirects home */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
 
