@@ -28,7 +28,7 @@ export function LoginPage() {
     setServerError(null)
     try {
       await login(values.email, values.password)
-      navigate('/')
+      navigate('/dashboard')
     } catch (err) {
       if (isAxiosError(err) && err.response?.data?.error) {
         setServerError(err.response.data.error)

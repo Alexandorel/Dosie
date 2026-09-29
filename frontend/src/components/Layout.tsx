@@ -20,11 +20,11 @@ export function Layout() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-lg font-semibold tracking-tight text-accent-600">
+            <Link to="/dashboard" className="text-lg font-semibold tracking-tight text-accent-600">
               Dosie
             </Link>
             <nav className="flex items-center gap-4">
-              <NavLink to="/" end className={navLinkClass}>
+              <NavLink to="/dashboard" end className={navLinkClass}>
                 Dashboard
               </NavLink>
               <NavLink to="/patients" className={navLinkClass}>

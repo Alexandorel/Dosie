@@ -32,7 +32,7 @@ export function RegisterPage() {
       await registerUser(values)
       // Backend does not return a token on register, so log in right after.
       await login(values.email, values.password)
-      navigate('/')
+      navigate('/dashboard')
     } catch (err) {
       if (isAxiosError(err) && err.response?.data?.error) {
         setServerError(err.response.data.error)
