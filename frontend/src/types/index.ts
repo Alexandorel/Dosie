@@ -32,3 +32,20 @@ export interface Medication {
   active: boolean
   createdAt: string
 }
+
+export interface ScheduleMedication {
+  id: string
+  scheduleId: string
+  medicationId: string
+  medication: Medication
+}
+
+export interface Schedule {
+  id: string
+  patientId: string
+  timeOfDay: string
+  daysOfWeek: number[]
+  active: boolean
+  createdAt: string
+  medications: ScheduleMedication[]
+}
