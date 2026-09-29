@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 
-/* Terracotta accent palette — the single source of truth for the app's
-   accent color. Used via accent-100 / accent-500 / accent-600 / accent-700. */
+/* Terracotta palette  */
 @theme {
   --color-accent-50: #fdf4f0;
   --color-accent-100: #f9e3d9;
@@ -9,6 +8,9 @@
   --color-accent-500: #d9724e;
   --color-accent-600: #c05a37;
   --color-accent-700: #9d4529;
+
+  /* Inter font */
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
 }
 
 :root {
@@ -18,7 +20,7 @@
 body {
   margin: 0;
   min-height: 100svh;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
