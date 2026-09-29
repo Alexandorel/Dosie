@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { usePatient } from '@/features/patients/usePatient'
+import { MedicationsSection } from '@/features/medications/MedicationsSection'
 
 export function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -41,11 +42,8 @@ export function PatientDetailPage() {
         <dd className="text-slate-900">{patient.language}</dd>
       </dl>
 
-      <div className="mt-10 space-y-6">
-        <section className="rounded-lg border border-dashed border-slate-300 p-6 text-slate-500">
-          <h2 className="text-sm font-semibold text-slate-700">Medications</h2>
-          <p className="mt-1 text-sm">Coming soon.</p>
-        </section>
+      <div className="mt-10 space-y-8">
+        <MedicationsSection patientId={patient.id} />
 
         <section className="rounded-lg border border-dashed border-slate-300 p-6 text-slate-500">
           <h2 className="text-sm font-semibold text-slate-700">Schedules</h2>
