@@ -15,7 +15,7 @@ export function PatientDetailPage() {
     return (
       <div>
         <p className="text-red-600">{error ?? 'Patient not found.'}</p>
-        <Link to="/patients" className="mt-4 inline-block text-sm text-blue-600 hover:underline">
+        <Link to="/patients" className="mt-4 inline-block text-sm text-accent-600 hover:underline">
           ← Back to patients
         </Link>
       </div>
@@ -24,7 +24,7 @@ export function PatientDetailPage() {
 
   return (
     <div>
-      <Link to="/patients" className="text-sm text-blue-600 hover:underline">
+      <Link to="/patients" className="text-sm text-accent-600 hover:underline">
         ← Back to patients
       </Link>
 

@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+/* Terracotta accent palette — the single source of truth for the app's
+   accent color. Used via accent-100 / accent-500 / accent-600 / accent-700. */
+@theme {
+  --color-accent-50: #fdf4f0;
+  --color-accent-100: #f9e3d9;
+  --color-accent-200: #f2c6b1;
+  --color-accent-500: #d9724e;
+  --color-accent-600: #c05a37;
+  --color-accent-700: #9d4529;
+}
+
 :root {
   color-scheme: light;
 }

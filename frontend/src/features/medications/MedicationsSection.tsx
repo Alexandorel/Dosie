@@ -81,7 +81,7 @@ export function MedicationsSection({ patientId }: MedicationsSectionProps) {
             setFormError(null)
             setAddOpen(true)
           }}
-          className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-blue-700"
+          className="rounded-md bg-accent-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-accent-700"
         >
           Add medication
         </button>

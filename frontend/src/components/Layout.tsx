@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `text-sm font-medium transition ${
-    isActive ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'
+    isActive ? 'text-accent-600' : 'text-slate-600 hover:text-slate-900'
   }`
 
 export function Layout() {
@@ -20,7 +20,7 @@ export function Layout() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-lg font-semibold tracking-tight text-blue-600">
+            <Link to="/" className="text-lg font-semibold tracking-tight text-accent-600">
               Dosie
             </Link>
             <nav className="flex items-center gap-4">

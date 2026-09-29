@@ -33,7 +33,7 @@ interface ScheduleFormProps {
 }
 
 const inputClass =
-  'mt-1 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+  'mt-1 rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100'
 
 export function ScheduleForm({
   availableMedications,
@@ -98,7 +98,7 @@ export function ScheduleForm({
                     }
                     className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${
                       checked
-                        ? 'border-blue-600 bg-blue-600 text-white'
+                        ? 'border-accent-600 bg-accent-600 text-white'
                         : 'border-slate-300 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
@@ -161,7 +161,7 @@ export function ScheduleForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:opacity-60"
+          className="rounded-md bg-accent-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-700 disabled:opacity-60"
         >
           {isSubmitting ? 'Saving…' : submitLabel}
         </button>

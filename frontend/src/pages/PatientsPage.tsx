@@ -67,7 +67,7 @@ export function PatientsPage() {
             setFormError(null)
             setAddOpen(true)
           }}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+          className="rounded-md bg-accent-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-700"
         >
           Add patient
         </button>
@@ -100,7 +100,7 @@ export function PatientsPage() {
                       <button
                         type="button"
                         onClick={() => navigate(`/patients/${patient.id}`)}
-                        className="font-medium text-blue-600 hover:underline"
+                        className="font-medium text-accent-600 hover:underline"
                       >
                         {patient.fullName}
                       </button>
