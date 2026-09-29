@@ -1,5 +1,10 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
+
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  `text-sm font-medium transition ${
+    isActive ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'
+  }`
 
 export function Layout() {
   const { user, logout } = useAuth()
@@ -14,9 +19,19 @@ export function Layout() {
     <div className="min-h-svh bg-slate-50 text-slate-900">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <Link to="/" className="text-lg font-semibold tracking-tight text-blue-600">
-            Dosie
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="text-lg font-semibold tracking-tight text-blue-600">
+              Dosie
+            </Link>
+            <nav className="flex items-center gap-4">
+              <NavLink to="/" end className={navLinkClass}>
+                Dashboard
+              </NavLink>
+              <NavLink to="/patients" className={navLinkClass}>
+                Patients
+              </NavLink>
+            </nav>
+          </div>
           <div className="flex items-center gap-4 text-sm">
             <span className="text-slate-500">{user?.fullName}</span>
             <button
