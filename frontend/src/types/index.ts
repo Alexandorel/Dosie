@@ -14,3 +14,21 @@ export interface Patient {
   language: string
   createdAt: string
 }
+
+export const MEDICATION_UNITS = ['mg', 'ml', 'pill', 'drop', 'sachet', 'puff'] as const
+export type MedicationUnit = (typeof MEDICATION_UNITS)[number]
+
+export const MEDICATION_FORMS = ['syrup', 'tablet', 'drops', 'inhaler', 'capsule'] as const
+export type MedicationForm = (typeof MEDICATION_FORMS)[number]
+
+export interface Medication {
+  id: string
+  patientId: string
+  name: string
+  amount: string
+  unit: MedicationUnit
+  form: MedicationForm | null
+  instructions: string | null
+  active: boolean
+  createdAt: string
+}

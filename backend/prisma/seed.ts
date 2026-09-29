@@ -3,7 +3,7 @@ import { hashPassword } from "../src/lib/password.js";
 
 const USER_EMAIL = "test1@gmail.com";
 const USER_NAME = "Test One";
-const USER_PASSWORD = "parola123";
+const USER_PASSWORD = "test1111";
 
 const PATIENT_ID = "11111111-1111-4111-8111-111111111111";
 const MED_PARACETAMOL_ID = "22222222-2222-4222-8222-222222222222";
