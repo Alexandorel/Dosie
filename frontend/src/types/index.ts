@@ -49,3 +49,15 @@ export interface Schedule {
   createdAt: string
   medications: ScheduleMedication[]
 }
+
+export type AlertSeverity = 'info' | 'warning' | 'critical'
+
+export interface Alert {
+  id: string
+  patientId: string
+  callId: string | null
+  severity: AlertSeverity
+  message: string
+  acknowledged: boolean
+  createdAt: string
+}
