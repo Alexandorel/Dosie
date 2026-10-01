@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { usePatient } from '@/features/patients/usePatient'
 import { MedicationsSection } from '@/features/medications/MedicationsSection'
 import { SchedulesSection } from '@/features/schedules/SchedulesSection'
+import { AlertsSection } from '@/features/alerts/AlertsSection'
 
 export function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -44,6 +45,7 @@ export function PatientDetailPage() {
       </dl>
 
       <div className="mt-10 space-y-8">
+        <AlertsSection patientId={patient.id} />
         <MedicationsSection patientId={patient.id} />
         <SchedulesSection patientId={patient.id} />
       </div>
