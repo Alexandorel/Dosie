@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "./config.js";
 import { authRouter } from "./routes/auth.js";
 import { patientsRouter } from "./routes/patients.js";
+import { dashboardRouter } from "./routes/dashboard.js";
 import { startScheduler } from "./scheduler/index.js";
 import { startCallWorker } from "./queue/callWorker.js";
 
@@ -15,6 +16,7 @@ app.get("/health", (_req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/patients", patientsRouter);
+app.use("/dashboard", dashboardRouter);
 
 app.listen(config.port, async () => {
   console.log(`Dosie backend running on http://localhost:${config.port}`);

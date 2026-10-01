@@ -61,3 +61,19 @@ export interface Alert {
   acknowledged: boolean
   createdAt: string
 }
+
+export interface DashboardAlert {
+  id: string
+  patientId: string
+  patientName: string
+  severity: AlertSeverity
+  message: string
+  createdAt: string
+}
+
+export interface DashboardSummary {
+  patientsCount: number
+  openAlertsCount: number
+  activeSchedulesCount: number
+  recentAlerts: DashboardAlert[]
+}
