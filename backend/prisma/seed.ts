@@ -9,6 +9,7 @@ const PATIENT_ID = "11111111-1111-4111-8111-111111111111";
 const MED_PARACETAMOL_ID = "22222222-2222-4222-8222-222222222222";
 const MED_ASPIRIN_ID = "33333333-3333-4333-8333-333333333333";
 const SCHEDULE_ID = "44444444-4444-4444-8444-444444444444";
+const ALERT_ID = "55555555-5555-4555-8555-555555555555";
 // ---------------------------------------------------------------------------
 
 async function main() {
@@ -90,8 +91,21 @@ async function main() {
     });
   }
 
+  // 5. A demo alert
+  await prisma.alert.upsert({
+    where: { id: ALERT_ID },
+    update: {},
+    create: {
+      id: ALERT_ID,
+      patientId: patient.id,
+      severity: "warning",
+      message: "Elena did not answer the morning medication call.",
+      acknowledged: false,
+    },
+  });
+
   console.log(`Seeded caregiver ${USER_EMAIL} (password: ${USER_PASSWORD})`);
-  console.log(`  → patient "${patient.fullName}" with 2 medications and 1 schedule`);
+  console.log(`  → patient "${patient.fullName}" with 2 medications, 1 schedule and 1 alert`);
 }
 
 main()
