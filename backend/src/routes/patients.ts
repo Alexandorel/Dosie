@@ -5,6 +5,7 @@ import { requireAuth } from "../middleware/auth.js";
 import { getOwnedPatient } from "../lib/patients.js";
 import { medicationsRouter } from "./medications.js";
 import { schedulesRouter } from "./schedules.js";
+import { alertsRouter } from "./alerts.js";
 
 export const patientsRouter = Router();
 
@@ -21,6 +22,7 @@ const updatePatientSchema = createPatientSchema.partial();
 
 patientsRouter.use("/:patientId/medications", medicationsRouter);
 patientsRouter.use("/:patientId/schedules", schedulesRouter);
+patientsRouter.use("/:patientId/alerts", alertsRouter);
 
 patientsRouter.post("/", async (req, res) => {
   const parsed = createPatientSchema.safeParse(req.body);
